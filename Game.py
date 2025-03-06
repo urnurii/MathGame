@@ -44,7 +44,7 @@ start_ticks = pygame.time.get_ticks()  # время начала игры
 max_score = 0
 
 # Список деревьев (каждое дерево будет состоять из нескольких сегментов)
-trees = []
+cactuses = []
 
 
 # Функция для генерации математических примеров (без деления)
@@ -74,20 +74,20 @@ def draw_text(text, font, color, x, y):
 
 
 # Функция для проверки, не пересекается ли новое дерево с существующими
-def is_valid_position(new_tree, trees, min_distance=50):
-    for tree in trees:
+def is_valid_position(new_cactus, cactuses, min_distance=50):
+    for cactus in cactuses:
         # Проверяем, что новое дерево не перекрывает существующие деревья
-        if abs(new_tree['x'] - tree['x']) < min_distance:
+        if abs(new_cactus['x'] - cactus['x']) < min_distance:
             return False
     return True
 
 
 # Функция для загрузки случайной текстуры дерева
-def get_random_tree_segment_image():
-    tree_texture = random.choice(TREE_TEXTURES)  # Выбираем случайную текстуру из списка
-    tree_img = pygame.image.load(tree_texture)  # Загружаем выбранную текстуру дерева
-    tree_img = pygame.transform.scale(tree_img, (50, 50))  # Масштабируем изображение сегмента дерева в квадрат
-    return tree_img
+def get_random_cactus_segment_image():
+    cactus_texture = random.choice(TREE_TEXTURES)  # Выбираем случайную текстуру из списка
+    cactus_img = pygame.image.load(cactus_texture)  # Загружаем выбранную текстуру дерева
+    cactus_img = pygame.transform.scale(cactus_img, (50, 50))  # Масштабируем изображение сегмента дерева в квадрат
+    return cactus_img
 
 
 # Функция для отрисовки текстуры земли, чтобы она повторялась по всему экрану
@@ -130,13 +130,13 @@ while True:
                 if input_answer.lstrip('-').isdigit():
                     if int(input_answer) == current_answer:
                         # При верном ответе добавляем новый сегмент дерева
-                        if len(trees) == 0:  # Если деревьев нет, создаем первое дерево
-                            tree_x = random.randint(50, WIDTH - 50)
-                            tree_texture = get_random_tree_segment_image()  # Выбираем текстуру дерева для всего дерева
-                            trees.append({'x': tree_x, 'y': HEIGHT - 50, 'segments': [tree_texture]})
+                        if len(cactuses) == 0:  # Если деревьев нет, создаем первое дерево
+                            cactus_x = random.randint(50, WIDTH - 50)
+                            cactus_texture = get_random_cactus_segment_image()  # Выбираем текстуру дерева для всего дерева
+                            cactuses.append({'x': cactus_x, 'y': HEIGHT - 50, 'segments': [cactus_texture]})
                         else:
                             # Добавляем новый сегмент дерева
-                            trees[-1]['segments'].append(get_random_tree_segment_image())
+                            cactuses[-1]['segments'].append(get_random_cactus_segment_image())
                         score += 1
                     else:
                         # Если ответ неверный, дерево не изменяется
@@ -167,7 +167,7 @@ while True:
                         current_question = f"Новый рекорд! {score}"
 
                     # Сбрасываем значения для новой игры
-                    trees = []  # Очищаем деревья
+                    cactuses = []  # Очищаем деревья
                     score = 0
                     input_answer = ''
                     current_question, current_answer = generate_question()
@@ -181,19 +181,19 @@ while True:
     draw_ground_texture()
 
     # Рисуем деревья с текстурой для каждого сегмента
-    for tree in trees:
-        for i, segment in enumerate(tree['segments']):
-            screen.blit(segment, (tree['x'], HEIGHT - 50 - (i + 1) * 50))  # Рисуем сегменты дерева, с размером 50x50
+    for cactus in cactuses:
+        for i, segment in enumerate(cactus['segments']):
+            screen.blit(segment, (cactus['x'], HEIGHT - 50 - (i + 1) * 50))  # Рисуем сегменты дерева, с размером 50x50
 
     # Проверка, если дерево достигло верхней части экрана, создаем новое дерево на земле
-    if trees and trees[-1]['y'] - len(trees[-1]['segments']) * 50 <= 0:  # Если дерево достигло верхней части экрана
+    if cactuses and cactuses[-1]['y'] - len(cactuses[-1]['segments']) * 50 <= 0:  # Если дерево достигло верхней части экрана
         # Пытаемся найти валидную позицию для нового дерева
-        new_tree = {'x': random.randint(50, WIDTH - 50), 'y': HEIGHT - 50, 'segments': [get_random_tree_segment_image()]}
-        while not is_valid_position(new_tree, trees):
+        new_cactus = {'x': random.randint(50, WIDTH - 50), 'y': HEIGHT - 50, 'segments': [get_random_cactus_segment_image()]}
+        while not is_valid_position(new_cactus, cactuses):
             # Если позиция не валидна (слишком близко к другому дереву), пробуем снова
-            new_tree['x'] = random.randint(50, WIDTH - 50)
+            new_cactus['x'] = random.randint(50, WIDTH - 50)
         # Создаем новое дерево в найденной позиции
-        trees.append(new_tree)
+        cactuses.append(new_cactus)
 
     # Отображение интерфейса (все элементы интерфейса должны быть сверху)
     # Отображение текущего примера
