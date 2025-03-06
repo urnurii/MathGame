@@ -18,12 +18,12 @@ SKY_BLUE = (135, 206, 235)  # Голубой цвет для неба
 DARK_BLUE = (0, 0, 139)  # Темно-синий для верха неба
 
 # Путь к шрифту Minecraft (убедитесь, что файл шрифта находится в той же директории, что и ваш код)
-MINECRAFT_FONT_PATH = 'minecraft.ttf'  # Поменяйте на имя вашего шрифта
+MINECRAFT_FONT_PATH = 'rsc/minecraft.ttf'  # Поменяйте на имя вашего шрифта
 FONT_SIZE = 30
 SMALL_FONT_SIZE = 20
 
 # Текстуры для деревьев
-CACTUSES_TEXTURES = ['cactus.jpg', 'cactus.png', 'cactus.webp']  # Список с текстурами деревьев
+CACTUSES_TEXTURES = ['rsc/cactus.jpg', 'rsc/cactus.png', 'rsc/cactus.webp']  # Список с текстурами деревьев
 
 # Настройка окна
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -95,7 +95,7 @@ def get_random_cactuses_segment_image():
 
 # Функция для отрисовки текстуры земли, чтобы она повторялась по всему экрану
 def draw_ground_texture():
-    ground_img = pygame.image.load('sand.jpg')  # Загружаем текстуру земли
+    ground_img = pygame.image.load('rsc/sand.jpg')  # Загружаем текстуру земли
     ground_img = pygame.transform.scale(ground_img, (50, 50))  # Масштабируем текстуру земли под блоки
     for i in range(0, WIDTH, 50):  # Рисуем землю по ширине экрана
         screen.blit(ground_img, (i, HEIGHT - 50))
@@ -112,7 +112,7 @@ while True:
     screen.fill(WHITE)
 
     # Рисуем фон
-    screen.blit(pygame.image.load('sky.webp'), (0, 0))  # Используем sky.webp для фона
+    screen.blit(pygame.image.load('rsc/sky.webp'), (0, 0))  # Используем sky.webp для фона
 
     # Расчёт оставшегося времени
     elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
